@@ -26,7 +26,7 @@ class ProjectsController < ApplicationController
     # @project.update!(dev_id: params[:dev_id])
 
     if @project.save
-      redirect_to @project
+      redirect_to @project, notice: 'Post Created Successfully'
     else
       render new_project_path
     end
@@ -38,7 +38,7 @@ class ProjectsController < ApplicationController
     @project.users.clear
     @project.destroy
 
-    redirect_to user_session_path
+    redirect_to user_session_path, notice: 'Post Deleted Successfully'
   end
 
   def show
