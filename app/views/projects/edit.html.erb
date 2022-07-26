@@ -4,23 +4,7 @@
 <div class="m-5">
 
   <%= form_for @project  do |f| %>
-    <p>
-      <%= f.label :Name %>
-      <%= f.text_field :name, autofocus: true , class:'form-control' %>
-    </p>
-
-    <p>
-      <%= f.label :Description %>
-      <%= f.text_area :description, size: "70x5" , class:'form-control' %>
-    </p>
-
-    <p>
-      <span> Assign project to developer </span>
-        <%= f.select( :dev_id, options_from_collection_for_select(User.developers, "id", "name"),{},{class:'form-control w-50'}) %>
-    </p>
-
-    <%= f.submit "Update Project", class:'btn btn-primary'%>
-    <%= link_to 'Cancel', user_session_path, class:'btn btn-warning'%>
+     <%= render :partial => "form", :locals => { :f => f } %>
   <% end %>
 </div>
 

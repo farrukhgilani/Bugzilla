@@ -35,9 +35,7 @@
           <li class="nav-item active">
             <a> <%= link_to current_user.name, user_session_path, class:"nav-link disabled"  %> </a>
           </li>
-          <li class="nav-item active">
-            <a> <%= link_to current_user.user_type, user_session_path, class:"nav-link disabled"  %> </a>
-          </li>
+
           <li class="nav-item active">
             <a> <%= link_to 'Sign Out', destroy_user_session_path ,method: :delete, class:"nav-link btn btn-danger btn-sm text-light"  %> </a>
           </li>

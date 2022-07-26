@@ -1,7 +1,4 @@
 class BugsController < ApplicationController
-  def new
-
-  end
 
   def create
     @project = Project.find(params[:project_id])
@@ -9,16 +6,10 @@ class BugsController < ApplicationController
     redirect_to project_path(@project)
   end
 
-  def show
-  end
-
   def edit
   end
 
   def update
-  end
-
-  def index
   end
 
   def destroy

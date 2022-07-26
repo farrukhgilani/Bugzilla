@@ -8,6 +8,8 @@ class User < ApplicationRecord
 
   scope :developers, -> { where("user_type = 2") }
 
+  validates :name, :email, :user_type, presence: true
+  validates :name, length: {minimum:3, maximum:12}
 
   has_many :user_projects
   has_many :projects, through: :user_projects
