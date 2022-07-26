@@ -1,0 +1,36 @@
+<div class="m-5 p-3 w-50">
+
+  <h1>Create Project</h1>
+  <% if @project.errors.full_messages.any? %>
+    <% @project.errors.full_messages.each do |error_message| %>
+      <p class='text-danger'><%= error_message if @project.errors.full_messages.first == error_message %></p> <br />
+    <% end %>
+  <% end %>
+
+  <div class="m-5">
+
+    <%= form_for @project  do |f| %>
+      <p>
+        <%= f.label :Name %>
+        <%= f.text_field :name , class:'form-control' %>
+      </p>
+
+      <p>
+        <%= f.label :Description %>
+        <%= f.text_area :description ,size: "70x5" , class:'form-control' %>
+      </p>
+
+      <%# <p>
+        <%= f.number_field :user_id, class:'form-control', value: current_user.id, type: :hidden%>
+      <%# </p> %>
+      <p>
+        <span>Assign project to developer</span>
+        <%= f.select :dev_id, options_from_collection_for_select(User.developers, "id", "name",params[:dev_id]), {class:'form-control'} %>
+      </p>
+
+      <%= f.submit "Create Project", class:'btn btn-primary'%>
+      <%= link_to 'Cancel', user_session_path, class:'btn btn-warning'%>
+    <% end %>
+  </div>
+
+</div>
