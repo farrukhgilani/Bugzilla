@@ -16,7 +16,7 @@
 
     <p>
       <span> Assign project to developer </span>
-        <%= f.select( :dev_id, options_from_collection_for_select(User.developers, "id", "name")) %>
+        <%= f.select( :dev_id, options_from_collection_for_select(User.developers, "id", "name"),{},{class:'form-control w-50'}) %>
     </p>
 
     <%= f.submit "Update Project", class:'btn btn-primary'%>

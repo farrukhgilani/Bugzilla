@@ -5,7 +5,8 @@ class UserPolicy < ApplicationPolicy
     #   scope.all
     # end
   end
+
   def index?
-    @user.has_role? :manager
+    @user.has_role? :Manager
   end
 end

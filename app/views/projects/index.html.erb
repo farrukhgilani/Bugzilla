@@ -2,7 +2,9 @@
 
 <div class='ml-5'>
 <h3>Projects List</h3>
-<%= link_to 'Create new Project', new_project_path, class:"btn btn-outline-primary btn-sm"  %>
+<% if (current_user.manager?)%>
+  <%= link_to 'Create new Project', new_project_path, class:"btn btn-outline-primary btn-sm"  %>
+<%end%>
 </div>
 
 <div class='ml-5 mr-5 mt-3 row d-flex'>
@@ -20,10 +22,14 @@
         </p>
 
         <p>
-          <%= link_to 'Report Bug', project_path(project), class:'btn btn-dark btn-sm float-right' %>
-           <%= link_to 'Edit', edit_project_path(project), class:'btn btn-warning btn-sm m-1'%>
-        <%# <%= link_to 'Show', project_path(project), class:'btn btn-info m-1'%>
-            <%= link_to 'Delete', project_path(project), class:'btn btn-danger btn-sm m-1',method: :delete, data: { confirm: 'Are you sure?' }%>
+          <% if (current_user.qa? || current_user.manager?) %>
+
+            <%= link_to 'Report Bug', project_path(project), class:'btn btn-dark btn-sm float-right' %>
+            <% if (current_user.manager?) %>
+              <%= link_to 'Edit', edit_project_path(project), class:'btn btn-warning btn-sm m-1'%>
+              <%= link_to 'Delete', project_path(project), class:'btn btn-danger btn-sm m-1',method: :delete, data: { confirm: 'Are you sure?' }%>
+            <%end %>
+          <%end %>
 
         </p>
 

@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-sm navbar-light sticky-top" style="background-color:rgba(255,255,255,0.7);">
+      <a> <%= link_to 'Bugzilla', root_path, class:"navbar-brand" %> </a>
+      <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+          aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavId">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+          <% if user_signed_in?%>
+
+            <li class="nav-item active">
+              <%# <a> <%= link_to 'Create New Project', new_project_path, class:"nav-link"  %> </a>
+            </li>
+
+            <li class="nav-item active">
+              <a> <%= link_to 'Edit my Account',  edit_user_registration_path , class:"nav-link"  %> </a>
+            </li>
+
+          <%else%>
+
+            <li class="nav-item active">
+              <a> <%= link_to 'Sign Up',  new_user_registration_path , class:"nav-link"  %> </a>
+            </li>
+            <li class="nav-item active">
+              <a> <%= link_to 'Sign In',  new_user_session_path , class:"nav-link"  %> </a>
+            </li>
+
+          <% end %>
+
+        </ul>
+
+        <% if user_signed_in? %>
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+            <a> <%= link_to current_user.name, user_session_path, class:"nav-link disabled"  %> </a>
+          </li>
+          <li class="nav-item active">
+            <a> <%= link_to current_user.user_type, user_session_path, class:"nav-link disabled"  %> </a>
+          </li>
+          <li class="nav-item active">
+            <a> <%= link_to 'Sign Out', destroy_user_session_path ,method: :delete, class:"nav-link btn btn-danger btn-sm text-light"  %> </a>
+          </li>
+        </ul>
+        <% end %>
+
+        <%# <form class="form-inline my-2 my-lg-0"> %>
+          <%# <input class="form-control mr-sm-2" type="text" placeholder="Search"> %>
+          <%# <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> %>
+        <%# </form> %>
+      </div>
+    </nav>

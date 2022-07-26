@@ -30,7 +30,7 @@
 
   <div class="field">
     <%= f.label :user_type %><br />
-    <%= f.select :user_type,  User.types, class: 'form-control' %>
+    <%= f.select :user_type,  User.types.except("Manager"), class: 'form-control' %>
   </div>
 
   <div class="actions">

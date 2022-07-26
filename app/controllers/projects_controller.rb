@@ -1,19 +1,28 @@
 class ProjectsController < ApplicationController
 
   def index
-    @projects = Project.all
+    if current_user.manager? || current_user.qa?
+      @projects = Project.all
+      authorize @projects
+    else
+      @projects = Project.all.where(dev_id: current_user.id)
+      authorize @projects
+    end
   end
 
   def new
     @project = Project.new
+    authorize @project
   end
 
   def edit
     @project = Project.find(params[:id])
+    authorize @project
   end
 
   def create
     @project = current_user.projects.create(project_params)
+    authorize @project
     # @project.update!(dev_id: params[:dev_id])
 
     if @project.save
@@ -25,8 +34,10 @@ class ProjectsController < ApplicationController
 
   def destroy
     @project = Project.find(params[:id])
+    authorize @project
     @project.users.clear
     @project.destroy
+
     redirect_to user_session_path
   end
 
@@ -36,6 +47,7 @@ class ProjectsController < ApplicationController
 
   def update
     @project = Project.find(params[:id])
+    authorize @project
     if @project.update(project_params)
       redirect_to @project
     else
