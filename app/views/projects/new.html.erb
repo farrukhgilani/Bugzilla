@@ -1,4 +1,4 @@
-<div class="m-5 p-3 w-50">
+<div class=" divs p-3">
 
   <h1>Create Project</h1>
   <% if @project.errors.full_messages.any? %>
@@ -7,7 +7,7 @@
     <% end %>
   <% end %>
 
-  <div class="m-5">
+  <div class="">
 
   <%= form_for @project  do |f| %>
      <%= render :partial => "form", :locals => { :f => f } %>

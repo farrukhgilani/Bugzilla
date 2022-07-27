@@ -1,5 +1,5 @@
-<div class="shadow p-4 mb-2 ml-5 mr-5 bg-light" style="background-color:rgba(255,255,255,0.4); border-radius: 20px">
-    <h3>Bugs / Features</h3>
+<div class="p-4 mb-2 ml-5 mr-5 divs">
+
       <% if @project.bugs.count == 0 %>
         <strong class='text-danger'>No bugs on this project yet</strong>
       <%end%>
@@ -7,13 +7,21 @@
       <div class="">
 
         <p>
-          <strong class='text-danger'> <%= bug.title%> </strong>
+            <% if bug.dev_id.present? %>
+              <span class='float-right'>Assigned to: <%= find_assigned_bug_user(bug) %></span>
+            <% end %>
+          <h4 class='text-danger'> <%= bug.title%> </h4>
+
           <%if current_user.manager?%>
             <%= link_to 'Delete Bug',[bug.project, bug], class:'btn btn-danger btn-sm float-right'  ,method: :delete, data: { confirm: 'Are you sure?' }%>
           <%end %>
           <%if current_user.developer?%>
-            <%= link_to 'Bug resolved',[bug.project, bug], class:'btn btn-success mr-1 btn-sm float-right'  ,method: :delete, data: { confirm: 'Are you sure?' }%>
-            <%= link_to 'Get Assigned',[bug.project, bug], class:'btn btn-warning mr-1 btn-sm float-right'  ,method: :delete, data: { confirm: 'Are you sure?' }%>
+
+            <%= link_to 'Bug resolved',bug_resolved_bug_path(bug), method: :put ,class:'btn btn-success mr-1 btn-sm float-right'%>
+            <% if !bug.dev_id.present? %>
+              <%= link_to 'Get Assigned', insert_id_bug_path(bug),  method: :put ,class:'btn btn-warning mr-1 btn-sm float-right'%>
+            <%end %>
+
           <%end %>
 
         </p>
@@ -25,7 +33,7 @@
 
         <p>
           <b>Status: </b>
-          <b class='btn btn-sm btn-warning disabled'> <%= Bug.statuses.key(bug.bug_status.to_i)%> </b>
+          <b class='bg-warning text-dark p-1 rounded'> <%= Bug.statuses.key(bug.bug_status.to_i)%> </b>
         </p>
 
         <p>

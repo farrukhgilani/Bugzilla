@@ -1,15 +1,16 @@
-<div class="text-center m-4 w-25 outer-card shadow-lg bg-light">
-      <h5 class="card-header"><%= link_to project.name.truncate(20) , project_path(project) , class: "text-dark" %></h5>
-      <div class="card-body">
-        <%# <h5 class="card-title"> <%= link_to project.name , project_path(project) , class: "text-dark" %></h5>
-        <p class="card-text"><%= project.description.truncate(50)%></p>
-        <%if current_user.qa? || current_user.manager?%>
-          <%= link_to 'Report Bug', project_path(project), class:'btn btn-dark btn-sm m-1' %>
-          <%if current_user.manager?%>
-          <%= link_to 'Edit', edit_project_path(project), class:'btn btn-warning btn-sm m-1'%>
-          <%= link_to 'Delete', project_path(project), class:'btn btn-danger btn-sm m-1',method: :delete, data: { confirm: 'Are you sure?' }%>
-          <%end%>
-        <%end%>
-      </div>
-      <div class="card-footer text-muted">Created on: <%= project.created_at.time.to_date %> </div>
-    </div>
+<div class="text-center m-4 w-25 outer-card  ">
+  <h5 class="card-header "><%= link_to project.name.truncate(20) , project_path(project) , class: "text-white" %></h5>
+  <div class="card-body">
+    <%# <h5 class="card-title"> <%= link_to project.name , project_path(project) , class: "text-dark" %></h5>
+    <p class="card-text "><%= project.description.truncate(50)%></p>
+    <%if current_user.qa? || current_user.manager?%>
+    <%if current_user.manager?%>
+      <%= link_to 'Edit', edit_project_path(project), class:'btn btn-info btn-sm m-1 '%>
+      <%= link_to 'Delete', project_path(project), class:'btn btn-danger btn-sm m-1',method: :delete, data: { confirm: 'Are you sure?' }%>
+      <%end%>
+      <%= link_to 'Report Bug', project_path(project), class:'btn btn-warning btn-sm m-1' %>
+
+    <%end%>
+  </div>
+  <div class="card-footer text-white">Created on: <%= project.created_at.time.to_date %> </div>
+</div>

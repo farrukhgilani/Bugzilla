@@ -4,7 +4,30 @@
 
 
 .outer-card{
+  color: white;
+  border-radius: 10px;
+  background-color: rgba(0,0,0, 0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 10px 20px 0 rgba(0, 0, 0, 0.19);
 
-  background: #EBF3FF;
 
+
+}
+
+.divs{
+  border-radius: 10px;
+  color: white;
+  background-color: rgba(0,0,0, 0.2);
+  margin: 2%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.create-btn{
+  color: white;
+  background-color: rgba(0,0,0, 0.4);
+  padding: 1%;
+  border-radius: 10px;
+  &:hover{
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+  }
 }

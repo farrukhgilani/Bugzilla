@@ -1,8 +1,7 @@
-<div class='container'>
-  <%= link_to 'Back', user_session_path, class:'btn btn-info'%>
-  <h1><%= @project.name %></h1>
+<div class='container divs p-2'>
+  <h1 class='mt-2'> <%= link_to 'Back', projects_path, class:'btn btn-info'%> <%= @project.name %></h1>
 
-  <div class="shadow p-2 mb-5 ">
+  <div class="p-2 ">
       <p>
         <strong>Name:</strong>
         <strong><%= @project.name %></strong>
@@ -13,7 +12,7 @@
       </p>
 
   </div>
-
+  <h3 class='ml-5'>Bugs / Features</h3>
   <%= render 'bugs_show' %>
 
   <%if current_user.manager? || current_user.qa?%>

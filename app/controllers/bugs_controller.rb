@@ -19,6 +19,17 @@ class BugsController < ApplicationController
     redirect_to project_path(@project)
   end
 
+  def insert_id
+    @bug = Bug.find(params[:id])
+    @bug.dev_id = current_user.id
+    @bug.save
+  end
+  def bug_resolved
+    @bug = Bug.find(params[:id])
+    @bug.bug_status = 2
+    @bug.save
+  end
+
   private
   def bug_params
     params.require(:bug).permit!
