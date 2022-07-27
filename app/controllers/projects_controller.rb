@@ -2,11 +2,10 @@ class ProjectsController < ApplicationController
 
   def index
     if current_user.manager? || current_user.qa?
-      @projects = Project.all
-      #@projects = Project.order(:name).page params[:page]
+      @projects = Project.page(params[:page]).per(6)
       authorize @projects
     else
-      @projects = Project.all.where(dev_id: current_user.id)
+      @projects = Project.page(params[:page]).per(6).where(dev_id: current_user.id)
       authorize @projects
     end
   end

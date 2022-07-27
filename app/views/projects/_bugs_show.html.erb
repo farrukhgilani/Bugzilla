@@ -10,7 +10,7 @@
             <% if bug.dev_id.present? %>
               <span class='float-right'>Assigned to: <%= find_assigned_bug_user(bug) %></span>
             <% end %>
-          <h4 class='text-danger'> <%= bug.title%> </h4>
+          <h4 class='text-primary'> <%= bug.title%> </h4>
 
           <%if current_user.manager?%>
             <%= link_to 'Delete Bug',[bug.project, bug], class:'btn btn-danger btn-sm float-right'  ,method: :delete, data: { confirm: 'Are you sure?' }%>
@@ -52,3 +52,6 @@
       <% end %>
 
   </div>
+
+
+

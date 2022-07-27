@@ -1,35 +1,39 @@
 <div class='row m-5'>
-  <div class='col-5 divs p-5'>
-    <h2>Log in</h2>
+  <div class='col-md-5 col-12 divs p-3'>
+
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-      <div class="field">
+
+      <div class="field col-md-8 col-12">
+      <h2>Log in</h2>
         <%= f.label :email %><br />
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", class:'form-control w-75' %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class:'form-control' %>
       </div>
 
-      <div class="field">
+      <div class="field col-md-8 col-12">
         <%= f.label :password %><br />
-        <%= f.password_field :password, autocomplete: "current-password", class:'form-control w-75'  %>
+        <%= f.password_field :password, autocomplete: "current-password", class:'form-control'  %>
       </div>
 
       <% if devise_mapping.rememberable? %>
-        <div class="field">
+        <div class="field col-md-8 col-12">
           <%= f.check_box :remember_me %>
           <%= f.label :remember_me %>
         </div>
       <% end %>
 
-      <div class="actions">
+      <div class="actions col-md-8 col-12">
         <%= f.submit "Log in", class:'btn btn-primary' %>
       </div>
     <% end %>
+      <div class="actions col-md-8 col-12">
+        Dont't have an account? <%= render "devise/shared/links" %>
+      </div>
 
-    Dont't have an account? <%= render "devise/shared/links" %>
 
   </div>
 
-  <div class='col-5 mt-5'>
+  <div class='col-md-5 col-12 mt-5'>
     <%= image_tag '/undraw_login_re_4vu2.svg', width: '100%' %>
   </div>
 </div>
