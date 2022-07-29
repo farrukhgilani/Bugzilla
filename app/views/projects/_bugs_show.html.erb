@@ -1,25 +1,30 @@
 <div class="p-4 mb-2 ml-5 mr-5 divs">
 
-      <% if @project.bugs.count == 0 %>
-        <strong class='text-danger'>No bugs on this project yet</strong>
-      <%end%>
-      <% @project.bugs.each do |bug| %>
-      <div class="">
+    <% if @project.bugs.count == 0 %>
+      <strong class='text-danger'>No bugs on this project yet</strong>
+    <%end%>
+
+    <% @bugs.each do |bug| %>
+
+      <div id="bug-<%= bug.id%>">
 
         <p>
-            <% if bug.dev_id.present? %>
-              <span class='float-right'>Assigned to: <%= find_assigned_bug_user(bug) %></span>
-            <% end %>
-          <h4 class='text-primary'> <%= bug.title%> </h4>
+          <% if bug.dev_id.present? %>
+            <span class='float-right'>Assigned to: <%= find_assigned_bug_user(bug) %></span>
+          <% end %>
+          <h4 class='text-primary'> <%= bug.title %> </h4>
 
-          <%if current_user.manager?%>
-            <%= link_to 'Delete Bug',[bug.project, bug], class:'btn btn-danger btn-sm float-right'  ,method: :delete, data: { confirm: 'Are you sure?' }%>
+          <%if policy(:project).show?%>
+            <%= link_to 'Delete',[bug.project, bug], class:'btn btn-danger btn-sm float-right'  ,method: :delete, data: { confirm: 'Are you sure?' } %>
+            
           <%end %>
-          <%if current_user.developer?%>
 
-            <%= link_to 'Bug resolved',bug_resolved_bug_path(bug), method: :put ,class:'btn btn-success mr-1 btn-sm float-right'%>
+          <%if policy(:project).developer? %>
+            <% if bug.bug_status == 1 %>
+              <%= link_to 'Bug resolved',bug_resolved_bug_path(bug), method: :get ,class:'btn btn-success mr-1 btn-sm float-right'%>
+            <%end%>
             <% if !bug.dev_id.present? %>
-              <%= link_to 'Get Assigned', insert_id_bug_path(bug),  method: :put ,class:'btn btn-warning mr-1 btn-sm float-right'%>
+              <%= link_to 'Get Assigned', insert_id_bug_path(bug),  method: :get ,class:'btn btn-warning mr-1 btn-sm float-right'%>
             <%end %>
 
           <%end %>
@@ -48,10 +53,10 @@
         <small class='text-danger'>No Screenshot Attached</small>
       <%end%>
 
-        <hr>
-      <% end %>
+      <hr>
+    <% end %>
 
-  </div>
+</div>
 
 
 

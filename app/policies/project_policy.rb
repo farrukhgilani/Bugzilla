@@ -13,6 +13,10 @@ class ProjectPolicy < ApplicationPolicy
    true
   end
 
+  def show?
+    return true if @user.present? && @user.manager?
+  end
+
   def create?
     return true if @user.present? && @user.manager?
   end
@@ -29,6 +33,16 @@ class ProjectPolicy < ApplicationPolicy
     return true if @user.present? && @user.manager?
   end
 
+  def developer?
+    return true if @user.present? && @user.developer?
+  end
+
+  def qa?
+    return true if @user.present? && @user.qa?
+  end
+  def manager?
+    return true if @user.present? && @user.manager?
+  end
   private
 
     def project

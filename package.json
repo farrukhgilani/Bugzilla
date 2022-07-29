@@ -1,5 +1,7 @@
 {
   "name": "bugzilla",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "rails-ujs": "^5.2.8-1"
+  }
 }

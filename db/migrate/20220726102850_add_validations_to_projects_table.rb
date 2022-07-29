@@ -9,6 +9,5 @@ class AddValidationsToProjectsTable < ActiveRecord::Migration[5.2]
     change_column :bugs, :project_id, :integer, null: false
 
 
-    #Ex:- change_column("admin_users", "email", :string, :limit =>25)
   end
 end

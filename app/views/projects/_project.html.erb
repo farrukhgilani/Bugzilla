@@ -1,13 +1,14 @@
 
-<div class="text-center col-12 col-lg-3 outer-card  ">
+<div class="text-center col-12 col-lg-3 outer-card ">
 <h5 class="card-header "><%= link_to project.name.truncate(20) , project_path(project) , class: "text-white" %></h5>
-  <div class="card-body">
+  <div class="card-body"  id='delete-<%= project.id %>'>
     <%# <h5 class="card-title"> <%= link_to project.name , project_path(project) , class: "text-dark" %></h5>
     <p class="card-text "><%= project.description.truncate(100)%></p>
-    <%if current_user.qa? || current_user.manager?%>
-    <%if current_user.manager?%>
+    <%if policy(:project).qa? || policy(:project).manager?%>
+    <%if policy(:project).manager?%>
       <%= link_to '', edit_project_path(project), class:'fa fa-edit btn btn-info btn-sm m-1 '%>
       <%= link_to '', project_path(project), class:'fa fa-trash btn btn-danger btn-sm m-1',method: :delete, data: { confirm: 'Are you sure?' }%>
+      <%# <div class='btn btn-danger btn-sm float-right destroy'>Delete</div> %>
       <%end%>
       <%= link_to '', project_path(project), class:'fa fa-bug btn btn-warning btn-sm m-1' %>
 
