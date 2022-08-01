@@ -29,9 +29,11 @@ class ProjectsController < ApplicationController
 
   def destroy
     @project.users.clear
-    @project.destroy
-
-    redirect_to projects_path, flash: {notice: 'Post Deleted Successfully'}
+    if @project.destroy
+      redirect_to projects_path, flash: {notice: 'Post Deleted Successfully'}
+    else
+      redirect_to @project, flash: {alert: 'Something went wrong'}
+    end
   end
 
   def show
@@ -47,16 +49,15 @@ class ProjectsController < ApplicationController
   end
 
   private
-  def project_params
-    params.require(:project).permit(:name, :description, :dev_id)
-  end
+    def project_params
+      params.require(:project).permit(:name, :description, :dev_id)
+    end
 
-  private
-  def authorization
-    authorize Project
-  end
+    def authorization
+      authorize Project
+    end
 
-  def project_find
-    @project = Project.find(params[:id])
-  end
+    def project_find
+      @project = Project.find(params[:id])
+    end
 end

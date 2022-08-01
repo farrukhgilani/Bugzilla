@@ -37,7 +37,7 @@ class BugsController < ApplicationController
     else
       @bug.resolved!
     end
-    @bug.save
+
     redirect_back fallback_location: root_path, flash: {notice: 'Status Updated Successfully.'}
 
   end
