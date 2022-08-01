@@ -100,13 +100,13 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address: 'smtp.gmail.com',
     port: 587,
-    domain: 'localhost',
+    domain: 'gmail.com',
     user_name: Rails.application.credentials.dig(:google_smtp, :email),
     password: Rails.application.credentials.dig(:google_smtp, :password),
     authentication: 'plain',
     enable_starttls_auto: true
   }
 
-  config.action_mailer.default_url_options = { host: 'https://bugzilla-farrukh.herokuapp.com/', protocol: 'https' }
+  config.action_mailer.default_url_options = { host: 'https://bugzilla-farrukh.herokuapp.com', protocol: 'https' }
   config.action_mailer.perform_caching = false
 end
