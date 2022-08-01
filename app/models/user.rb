@@ -4,9 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  enum type: {Manager: 1,Developer: 2, QA: 3}
+  enum user_type: [:manager, :developer, :qa]
 
-  scope :developers, -> { where("user_type = 2") }
 
   validates :name, :email, :user_type, presence: true
   validates :name, length: {minimum:3, maximum:12}
@@ -15,15 +14,4 @@ class User < ApplicationRecord
   has_many :projects, through: :user_projects
 
 
-  def manager?
-    user_type == 1
-  end
-
-  def developer?
-    user_type == 2
-  end
-
-  def qa?
-    user_type == 3
-  end
 end

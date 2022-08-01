@@ -24,7 +24,7 @@ class BugsController < ApplicationController
   def insert_id
     @bug = Bug.find(params[:id])
     @bug.dev_id = current_user.id
-    @bug.bug_status = 1
+    @bug.started!
     @bug.save
     redirect_back fallback_location: root_path
 
@@ -32,9 +32,13 @@ class BugsController < ApplicationController
 
   def bug_resolved
     @bug = Bug.find(params[:id])
-    @bug.bug_status = 2
+    if @bug.feature?
+      @bug.completed!
+    else
+      @bug.resolved!
+    end
     @bug.save
-    redirect_back fallback_location: root_path
+    redirect_back fallback_location: root_path, flash: {notice: 'Status Updated Successfully.'}
 
   end
 

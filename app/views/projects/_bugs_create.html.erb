@@ -14,7 +14,7 @@
 
 
             <span>Type</span>
-            <%= form.select :bug_type, Bug.bugs , {},{class: 'form-control'}%>
+            <%= form.select :bug_type, Bug.bug_types.keys , {},{class: 'form-control'}%>
 
 
           </div>
@@ -24,7 +24,7 @@
             <%= form.date_field :deadline, class:'form-control' %>
 
             <span>Status</span>
-              <%= form.select :bug_status, Bug.statuses.except("Completed"), {},{class: 'form-control'} %>
+              <%= form.select :bug_status, Bug.bug_statuses.except(:completed, :resolved).keys, {},{class: 'form-control'} %>
 
           </div>
         </div>

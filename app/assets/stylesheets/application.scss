@@ -33,7 +33,8 @@ color: white;
 }
 
 .c-alert{
-  position: fixed;
-  width: 100%;
-  z-index: 999999;
+  position: absolute;
+  width: 25%;
+  z-index: 1;
+  right: 0px;
 }

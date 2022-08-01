@@ -2,6 +2,7 @@
   "name": "bugzilla",
   "private": true,
   "dependencies": {
+    "jquery": "^3.6.0",
     "rails-ujs": "^5.2.8-1"
   }
 }

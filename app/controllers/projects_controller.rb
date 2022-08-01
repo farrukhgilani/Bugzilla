@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
-  before_action :authorization, only: [:index, :new, :create, :edit, :update, :destory]
-  before_action :project_find, only: [:edit, :update, :show, :destory]
+  before_action :authorization, only: [:index, :new, :create, :edit, :update, :destroy]
+  before_action :project_find, only: [:edit, :update, :show, :destroy]
 
   def index
     if current_user.manager? || current_user.qa?
@@ -20,7 +20,6 @@ class ProjectsController < ApplicationController
 
   def create
     @project = current_user.projects.create(project_params)
-
     if @project.save
       redirect_to @project, flash: {notice: 'Post Created Successfully'}
     else
@@ -32,7 +31,7 @@ class ProjectsController < ApplicationController
     @project.users.clear
     @project.destroy
 
-    redirect_to user_session_path, flash: {notice: 'Post Deleted Successfully'}
+    redirect_to projects_path, flash: {notice: 'Post Deleted Successfully'}
   end
 
   def show
@@ -49,7 +48,7 @@ class ProjectsController < ApplicationController
 
   private
   def project_params
-    params.require(:project).permit(:name, :description, :dev_id )
+    params.require(:project).permit(:name, :description, :dev_id)
   end
 
   private
