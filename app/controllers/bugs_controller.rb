@@ -1,6 +1,6 @@
 class BugsController < ApplicationController
   before_action :project_load, only: [:create, :destroy]
-
+  before_action :authorization,  only: [:create, :destroy]
   def create
 
     @bug = @project.bugs.create(bug_params)
@@ -25,9 +25,11 @@ class BugsController < ApplicationController
     @bug = Bug.find(params[:id])
     @bug.dev_id = current_user.id
     @bug.started!
-    @bug.save
-    redirect_back fallback_location: root_path
-
+    if @bug.save
+      redirect_back fallback_location: root_path
+    else
+      redirect_back fallback_location: root_path, flash: {alert: 'Something went wrong.'}
+    end
   end
 
   def bug_resolved
@@ -37,19 +39,24 @@ class BugsController < ApplicationController
     else
       @bug.resolved!
     end
-
-    redirect_back fallback_location: root_path, flash: {notice: 'Status Updated Successfully.'}
-
+    if @bug.save
+      redirect_back fallback_location: root_path, flash: {notice: 'Status Updated Successfully.'}
+    else
+      redirect_back fallback_location: root_path, flash: {alert: 'Something went wrong. Status Updation Failed.'}
+    end
   end
 
   private
-  def bug_params
-    params.require(:bug).permit!
-  end
+    def bug_params
+      params.require(:bug).permit!
+    end
 
-  private
-  def project_load
-   @project = Project.find(params[:project_id])
-  end
+    def project_load
+    @project = Project.find(params[:project_id])
+    end
+
+    def authorization
+      authorize Bug
+    end
 
 end
