@@ -107,6 +107,6 @@ Rails.application.configure do
     enable_starttls_auto: true
   }
 
-  config.action_mailer.default_url_options = { host: 'https://bugzilla-farrukh.herokuapp.com', protocol: 'https' }
+  config.action_mailer.default_url_options = { host: 'bugzilla-farrukh.herokuapp.com', protocol: 'https' }
   config.action_mailer.perform_caching = false
 end
