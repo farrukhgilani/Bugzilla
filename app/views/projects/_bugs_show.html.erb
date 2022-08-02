@@ -16,12 +16,14 @@
 
           <%if policy(:project).show?%>
             <%= link_to 'Delete',[bug.project, bug], class:'btn btn-danger btn-sm float-right'  ,method: :delete, data: { confirm: 'Are you sure?' } %>
-            
+
           <%end %>
 
           <%if policy(:project).developer? %>
-            <% if bug.bug_status == 1 %>
-              <%= link_to 'Bug resolved',bug_resolved_bug_path(bug), method: :get ,class:'btn btn-success mr-1 btn-sm float-right'%>
+            <% if bug.started? && bug.bug? %>
+              <%= link_to 'Resolved',bug_resolved_bug_path(bug), method: :get ,class:'btn btn-success mr-1 btn-sm float-right'%>
+            <%elsif bug.started? && bug.feature? %>
+              <%= link_to 'Completed',bug_resolved_bug_path(bug), method: :get ,class:'btn btn-success mr-1 btn-sm float-right'%>
             <%end%>
             <% if !bug.dev_id.present? %>
               <%= link_to 'Get Assigned', insert_id_bug_path(bug),  method: :get ,class:'btn btn-warning mr-1 btn-sm float-right'%>
@@ -38,12 +40,12 @@
 
         <p>
           <b>Status: </b>
-          <b class='bg-warning text-dark p-1 rounded'> <%= Bug.statuses.key(bug.bug_status.to_i)%> </b>
+          <b class='bg-warning text-dark p-1 rounded'> <%= bug.bug_status%> </b>
         </p>
 
         <p>
           <b>Type: </b>
-          <%= Bug.bugs.key(bug.bug_type.to_i)%>
+          <%= bug.bug_type%>
         </p>
       </div>
 

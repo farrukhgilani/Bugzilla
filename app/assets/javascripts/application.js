@@ -17,23 +17,7 @@
 
 
 // Tried this code for alert fade
-// $(".alert").delay(4000).slideUp(200, function() {
-//   $(this).alert('close');
-// });
+
 
 //import Rails from 'rails-ujs'
 //Rails.start()
-
-$(document).ready(function(){
-  $('.destroy').on('click', function() {
-    if (confirm("Are you sure to delete?")){
-      $.ajax({
-        url: '/projects/' + this.parentElement.id,
-        type: 'DELETE',
-        success: function(r){
-
-        }
-      });
-    }
-  });
-});

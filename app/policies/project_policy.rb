@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# policy
 class ProjectPolicy < ApplicationPolicy
   def resolve
     scope.all
@@ -10,7 +13,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def index?
-   true
+    true
   end
 
   def show?
@@ -40,12 +43,14 @@ class ProjectPolicy < ApplicationPolicy
   def qa?
     return true if @user.present? && @user.qa?
   end
+
   def manager?
     return true if @user.present? && @user.manager?
   end
+
   private
 
-    def project
-      record
-    end
+  def project
+    record
+  end
 end

@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class ProjectPolicyTest < ActiveSupport::TestCase
+class BugsPolicyTest < ActiveSupport::TestCase
   def test_scope; end
 
   def test_show; end
