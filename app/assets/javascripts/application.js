@@ -15,6 +15,9 @@
 //= require turbolinks
 //= require_tree .
 
-$(".alert").delay(4000).slideUp(200, function() {
-  $(this).alert('close');
-});
+
+// Tried this code for alert fade
+
+
+//import Rails from 'rails-ujs'
+//Rails.start()
