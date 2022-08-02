@@ -1,8 +1,10 @@
-<div class='container'>
-  <%= link_to 'Back', user_session_path, class:'btn btn-info'%>
-  <h1><%= @project.name %></h1>
+<div class='container divs p-2'>
 
-  <div class="shadow p-2 mb-5 ">
+
+  <h3><%= link_to '', projects_path, class:'btn fa fa-arrow-left text-white'%> </h3>
+  <h1 class='mt-2'><%= @project.name %></h1>
+
+  <div class="p-2 ">
       <p>
         <strong>Name:</strong>
         <strong><%= @project.name %></strong>
@@ -13,81 +15,11 @@
       </p>
 
   </div>
-
-  <div class="shadow p-4 mb-2 ml-5 mr-5 bg-light" style="background-color:rgba(255,255,255,0.4); border-radius: 20px">
-    <h3>Bugs / Features</h3>
-      <% if @project.bugs.count == 0 %>
-        <strong class='text-danger'>No bugs on this project yet</strong>
-      <%end%>
-      <% @project.bugs.each do |bug| %>
-      <div class="">
-
-        <p>
-          <strong class='text-danger'> <%= bug.title%> </strong>
-          <%if current_user.manager?%>
-            <%= link_to 'Delete Bug',[bug.project, bug], class:'btn btn-danger btn-sm float-right'  ,method: :delete, data: { confirm: 'Are you sure?' }%>
-          <%end %>
-          <%if current_user.developer?%>
-            <%= link_to 'Bug resolved',[bug.project, bug], class:'btn btn-success mr-1 btn-sm float-right'  ,method: :delete, data: { confirm: 'Are you sure?' }%>
-            <%= link_to 'Get Assigned',[bug.project, bug], class:'btn btn-warning mr-1 btn-sm float-right'  ,method: :delete, data: { confirm: 'Are you sure?' }%>
-          <%end %>
-
-        </p>
-
-        <p>
-          <b>Deadline: </b>
-          <%= bug.deadline%>
-        </p>
-
-        <p>
-          <b>Status: </b>
-          <b class='btn btn-sm btn-warning disabled'> <%= Bug.statuses.key(bug.bug_status.to_i)%> </b>
-        </p>
-
-        <p>
-          <b>Type: </b>
-          <%= Bug.bugs.key(bug.bug_type.to_i)%>
-        </p>
-      </div>
-
-      <% if bug.avatar.attached? %>
-        <%= image_tag bug.avatar, width: '200px' %>
-      <%else%>
-        <small class='text-danger'>No Screenshot Attached</small>
-      <%end%>
-
-        <hr>
-      <% end %>
-
-  </div>
+  <h3 class='ml-5'>Bugs / Features</h3>
+  <%= render 'bugs_show' %>
 
   <%if current_user.manager? || current_user.qa?%>
-  <div class="shadow p-2 ml-5 mr-5 mb-2 bg-light" style="background-color:rgba(255,255,255,0.4); border-radius: 20px">
-    <div class='w-75 m-auto'>
-      <%= form_with(model: [ @project, @project.bugs.build ], local: true) do |form| %>
-        <p>
-          <span >Title</span>
-          <%= form.text_field :title, class:'form-control w-50' %>
-
-          <span>Deadline</span>
-          <%= form.date_field :deadline, class:'form-control w-50' %>
-
-          <span>Type</span>
-          <%= form.select :bug_type, Bug.bugs , {},{class: 'form-control w-50'}%>
-
-         <span>Status</span>
-            <%= form.select :bug_status, Bug.statuses , {},{class: 'form-control w-50'} %>
-        </p>
-
-        <p>
-         <%# <%= link_to 'Attach a screenshot', @project, class:'btn btn-info btn-sm float-right' %>
-          <%= form.file_field :avatar %>
-          <%= form.submit "Report Bug", class:'btn btn-warning float-right' %>
-        </p>
-      <% end %>
-    </div>
-
-  </div>
+    <%= render 'bugs_create' %>
   <%end %>
 
 </div>
