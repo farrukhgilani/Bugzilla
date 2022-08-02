@@ -1,24 +1,25 @@
-class BugsController < ApplicationController
-  before_action :project_load, only: [:create, :destroy]
-  before_action :authorization,  only: [:create, :destroy]
-  def create
+# frozen_string_literal: true
 
+# bugs controller
+class BugsController < ApplicationController
+  before_action :project_load, only: %i[create destroy]
+  before_action :authorization, only: %i[create destroy]
+  def create
     @bug = @project.bugs.create(bug_params)
     if @bug.save
       redirect_to project_path(@project)
     else
-      redirect_to project_path(@project), flash: {alert: 'Could not Create bug. Title, Deadline, Type and Status is required. Title Length should be 10 characters.'}
+      redirect_to project_path(@project),
+                  flash: { alert: 'Title (minimum 10), Deadline, Type and Status is required.' }
     end
   end
 
-  def update
-
-  end
+  def update; end
 
   def destroy
     @bug = @project.bugs.find(params[:id])
     @bug.destroy
-    redirect_to project_path(@project), flash: {notice: 'Bug Deleted Successfully.'}
+    redirect_to project_path(@project), flash: { notice: 'Bug Deleted Successfully.' }
   end
 
   def insert_id
@@ -28,7 +29,7 @@ class BugsController < ApplicationController
     if @bug.save
       redirect_back fallback_location: root_path
     else
-      redirect_back fallback_location: root_path, flash: {alert: 'Something went wrong.'}
+      redirect_back fallback_location: root_path, flash: { alert: 'Something went wrong.' }
     end
   end
 
@@ -39,24 +40,21 @@ class BugsController < ApplicationController
     else
       @bug.resolved!
     end
-    if @bug.save
-      redirect_back fallback_location: root_path, flash: {notice: 'Status Updated Successfully.'}
-    else
-      redirect_back fallback_location: root_path, flash: {alert: 'Something went wrong. Status Updation Failed.'}
-    end
+    @bug.save
+    redirect_back fallback_location: root_path, flash: { notice: 'Status Updated Successfully.' }
   end
 
   private
-    def bug_params
-      params.require(:bug).permit!
-    end
 
-    def project_load
+  def bug_params
+    params.require(:bug).permit!
+  end
+
+  def project_load
     @project = Project.find(params[:project_id])
-    end
+  end
 
-    def authorization
-      authorize Bug
-    end
-
+  def authorization
+    authorize Bug
+  end
 end

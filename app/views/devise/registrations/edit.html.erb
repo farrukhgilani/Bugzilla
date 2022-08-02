@@ -38,12 +38,7 @@
     <div class="field col-md-8 col-12">
       <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
       <%= f.password_field :current_password, autocomplete: "current-password", class:'form-control' %>
-    </div>
-
-    <%# <div class="field"> %>
-      <%# <%= f.label :user_type %><br />
-      <%# <%= f.select :user_type, User.types.map { |key, value| [key , value] }, {}, {class:'form-control w-50'}%>
-    <%# </div> %>
+    </div><br />
 
     <div class="actions col-md-8 col-12">
       <%= f.submit "Update", class:'btn btn-success' %>

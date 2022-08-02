@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   devise_for :users
 
@@ -12,7 +14,5 @@ Rails.application.routes.draw do
       get 'insert_id', to: 'bugs#insert_id'
       get 'bug_resolved', to: 'bugs#bug_resolved'
     end
-
   end
-
 end
