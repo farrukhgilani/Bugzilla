@@ -25,19 +25,16 @@ color: white;
 
 }
 
-.outer-card{
-
-}
-
 .navbar{
-  background-color: #4F5F6F;
+  background-color: #566573;
   padding-left: 10%;
   padding-right: 10%;
-
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 30px 40px 0 rgba(0, 0, 0, 0.19);
 }
 
 .c-alert{
-  position: fixed;
-  width: 100%;
-  z-index: 999999;
+  position: absolute;
+  width: 25%;
+  z-index: 1;
+  right: 0px;
 }

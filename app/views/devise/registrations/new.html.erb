@@ -31,7 +31,7 @@
 
   <div class="field col-md-8 col-12">
     <%= f.label :user_type %><br />
-    <%= f.select :user_type,  User.types.except("Manager"),{}, {class: 'form-control'} %>
+    <%= f.select :user_type, User.user_types.except(:manager).keys, {},{class:'form-control'} %>
   </div>
 
   <div class="actions col-md-8 col-12">

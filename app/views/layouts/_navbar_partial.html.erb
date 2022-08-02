@@ -7,18 +7,7 @@
       <div class="collapse navbar-collapse" id="collapsibleNavId">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
-          <% if user_signed_in?%>
-
-            <li class="nav-item active">
-              <%# <a> <%= link_to 'Create New Project', new_project_path, class:"nav-link"  %> </a>
-            </li>
-
-
-            <%# <li class="nav-item active">
-              <a> <%= link_to 'Edit my Account',  edit_user_registration_path , class:"nav-link"  %> </a>
-            <%# </li> %>
-
-          <%else%>
+          <%if !user_signed_in?%>
 
             <li class="nav-item active">
               <a> <%= link_to 'Sign Up',  new_user_registration_path , class:"nav-link"  %> </a>
@@ -48,17 +37,8 @@
 
           </li>
 
-
-
-          <li class="nav-item active">
-
-          </li>
         </ul>
         <% end %>
 
-        <%# <form class="form-inline my-2 my-lg-0"> %>
-          <%# <input class="form-control mr-sm-2" type="text" placeholder="Search"> %>
-          <%# <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> %>
-        <%# </form> %>
       </div>
     </nav>
