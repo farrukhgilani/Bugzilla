@@ -1,25 +1,47 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+##Bugzilla is a bug tracking project
 
-Things you may want to cover:
+Prerequistes
+Setups following tools on the system
+* Github
+* Ruby 2.7.2
+* Rails 5.2.8.1
 
-* Ruby version
+### Run Following commands
 
-* System dependencies
+* bundle install
+(to install all gems all groups in your Gemfile)
 
-* Configuration
+Run the following commands to create and setup the database.
+* rails db:setup
 
-* Database creation
+After database setup you can start the rails server using the following command
+* rails s
 
-* Database initialization
+In this project following gems that are add:
 
-* How to run the test suite
+* gem 'bootstrap', '~> 4.0.0'
+* gem 'devise'
+* gem 'jquery-rails'
+* gem 'kaminari'
+* gem 'pg'
+* gem 'pundit'
 
-* Services (job queues, cache servers, search engines, etc.)
+We added Devise gem into Project
+* rails g devise:install
+* rails g devise User
+* rails g devise:views
 
-* Deployment instructions
+Pundit gem is used for authorization policies
+* rails g pundit:install
 
-* ...
-# Test-Project-Bugzilla
+Activestorage is used for image upload
+
+Added User types and edit model and view of the devise
+
+Created Project Model, view and controller
+Created Bug Model and controller
+
+Add Bug as Project has many Bugs make
+Authorize the user based on the roles, we used pundit for this and made policies for roles
