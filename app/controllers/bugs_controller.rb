@@ -18,12 +18,15 @@ class BugsController < ApplicationController
 
   def destroy
     @bug = @project.bugs.find(params[:id])
-    @bug.destroy
-    redirect_to project_path(@project), flash: { notice: 'Bug Deleted Successfully.' }
+    if @bug.destroy
+      redirect_to project_path(@project), flash: { notice: 'Bug Deleted Successfully.' }
+    else
+      redirect_to project_path(@project), flash: { notice: ' Something went wrong.' }
+    end
   end
 
   def insert_id
-    @bug = Bug.find(params[:id])
+    @bug = Bug.find(params[:id].to_i)
     @bug.dev_id = current_user.id
     @bug.started!
     if @bug.save
@@ -47,7 +50,7 @@ class BugsController < ApplicationController
   private
 
   def bug_params
-    params.require(:bug).permit!
+    params.require(:bug).permit(:title, :deadline, :bug_type, :bug_status, :project_id, :dev_id)
   end
 
   def project_load

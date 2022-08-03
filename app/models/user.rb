@@ -9,7 +9,7 @@ class User < ApplicationRecord
   enum user_type: %i[manager developer qa]
 
   validates :name, :email, :user_type, presence: true
-  validates :name, length: { minimum: 3, maximum: 12 }
+  validates :name, length: { minimum: 3, maximum: 20 }
 
   has_many :user_projects
   has_many :projects, through: :user_projects

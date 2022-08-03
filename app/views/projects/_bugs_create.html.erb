@@ -1,8 +1,6 @@
 <div class="p-2 ml-5 mr-5 mb-2 divs">
     <div class='w-75 m-auto'>
 
-
-
       <%= form_with(model: [ @project, @project.bugs.build ], local: true) do |form| %>
 
         <div class= 'row'>
@@ -11,15 +9,13 @@
             <span >Title</span>
             <%= form.text_field :title, class:'form-control' %>
 
-
-
             <span>Type</span>
             <%= form.select :bug_type, Bug.bug_types.keys , {},{class: 'form-control'}%>
-
 
           </div>
 
           <div class='col-md-6'>
+
             <span>Deadline</span>
             <%= form.date_field :deadline, class:'form-control' %>
 
