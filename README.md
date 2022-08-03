@@ -1,6 +1,6 @@
 # README
 
-##Bugzilla is a bug tracking project
+## Bugzilla is a bug tracking project
 
 Prerequistes
 Setups following tools on the system
