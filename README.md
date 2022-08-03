@@ -2,7 +2,8 @@
 
 ## Bugzilla is a bug tracking project
 
-Prerequistes
+Prerequisites
+
 Setups following tools on the system
 * Github
 * Ruby 2.7.2
