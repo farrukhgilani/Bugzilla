@@ -26,7 +26,7 @@ class BugsController < ApplicationController
   end
 
   def insert_id
-    @bug = Bug.find(params[:id].to_i)
+    @bug = Bug.find(params[:id])
     @bug.dev_id = current_user.id
     @bug.started!
     if @bug.save
