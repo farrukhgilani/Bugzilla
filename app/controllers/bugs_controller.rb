@@ -1,35 +1,63 @@
+# frozen_string_literal: true
+
+# bugs controller
 class BugsController < ApplicationController
-  def new
-
-  end
-
+  before_action :project_load, only: %i[create destroy]
+  before_action :authorization, only: %i[create destroy]
   def create
-    @project = Project.find(params[:project_id])
     @bug = @project.bugs.create(bug_params)
-    redirect_to project_path(@project)
+    if @bug.save
+      redirect_to project_path(@project)
+    else
+      redirect_to project_path(@project),
+                  flash: { alert: 'Title (minimum 10), Deadline, Type and Status is required.' }
+    end
   end
 
-  def show
-  end
-
-  def edit
-  end
-
-  def update
-  end
-
-  def index
-  end
+  def update; end
 
   def destroy
-    @project = Project.find(params[:project_id])
     @bug = @project.bugs.find(params[:id])
-    @bug.destroy
-    redirect_to project_path(@project)
+    if @bug.destroy
+      redirect_to project_path(@project), flash: { notice: 'Bug Deleted Successfully.' }
+    else
+      redirect_to project_path(@project), flash: { notice: ' Something went wrong.' }
+    end
+  end
+
+  def insert_id
+    @bug = Bug.find(params[:id])
+    @bug.dev_id = current_user.id
+    @bug.started!
+    if @bug.save
+      redirect_back fallback_location: root_path
+    else
+      redirect_back fallback_location: root_path, flash: { alert: 'Something went wrong.' }
+    end
+  end
+
+  def bug_resolved
+    @bug = Bug.find(params[:id])
+    if @bug.feature?
+      @bug.completed!
+    else
+      @bug.resolved!
+    end
+    @bug.save
+    redirect_back fallback_location: root_path, flash: { notice: 'Status Updated Successfully.' }
   end
 
   private
+
   def bug_params
-    params.require(:bug).permit!
+    params.require(:bug).permit(:title, :deadline, :bug_type, :bug_status, :project_id, :dev_id)
+  end
+
+  def project_load
+    @project = Project.find(params[:project_id])
+  end
+
+  def authorization
+    authorize Bug
   end
 end
