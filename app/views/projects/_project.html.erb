@@ -7,7 +7,7 @@
     <%if policy(:project).qa? || policy(:project).manager?%>
       <%if policy(:project).manager?%>
         <%= link_to '', edit_project_path(project), class:'fa fa-edit btn btn-info btn-sm m-1 '%>
-        <%= link_to '', project_path(project), class:'fa fa-trash btn btn-danger btn-sm m-1',method: :delete, data: { confirm: 'Are you sure?' }%>
+        <%= link_to '', project_path(project), class:'fa fa-trash btn btn-danger btn-sm m-1',method: :delete, data: { confirm: 'Are you sure?' }, remote: true%>
       <%end%>
       <%= link_to '', project_path(project), class:'fa fa-bug btn btn-warning btn-sm m-1' %>
 

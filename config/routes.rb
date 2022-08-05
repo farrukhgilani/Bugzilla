@@ -7,11 +7,6 @@ Rails.application.routes.draw do
 
   resources :projects do
     resources :bugs do
-      member do
-        get 'insert_id', to: 'bugs#insert_id'
-        get 'bug_resolved', to: 'bugs#bug_resolved'
-      end
     end
   end
-
 end
