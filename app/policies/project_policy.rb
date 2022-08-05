@@ -17,11 +17,11 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def show?
-     if @user.manager?
+    if @user.manager?
       return true if UserProject.where(project_id: @project.id) == @project.user_projects.where(user_id: @user.id)
-     elsif @user.developer?
+    elsif @user.developer?
       @project.dev_id.include?(user.id)
-     end
+    end
   end
 
   def create?
@@ -29,7 +29,9 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def edit?
-    return true if UserProject.where(project_id: @project.id) == @project.user_projects.where(user_id: @user.id) && @user.manager?
+    if UserProject.where(project_id: @project.id) == @project.user_projects.where(user_id: @user.id) && @user.manager?
+      true
+    end
   end
 
   def update?
@@ -37,7 +39,9 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def destroy?
-    return true if UserProject.where(project_id: @project.id) == @project.user_projects.where(user_id: @user.id) && @user.manager?
+    if UserProject.where(project_id: @project.id) == @project.user_projects.where(user_id: @user.id) && @user.manager?
+      true
+    end
   end
 
   def developer?

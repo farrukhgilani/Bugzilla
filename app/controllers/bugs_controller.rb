@@ -19,53 +19,52 @@ class BugsController < ApplicationController
     @bug = Bug.find(params[:id])
     set_status_completed(@bug)
     set_status_started(@bug)
-    end
   end
+end
 
-  def destroy
-    @bug = @project.bugs.find(params[:id])
-    if @bug.destroy
-      redirect_to project_path(@project), flash: { notice: 'Bug Deleted Successfully.' }
-    else
-      redirect_to project_path(@project), flash: { notice: ' Something went wrong.' }
-    end
+def destroy
+  @bug = @project.bugs.find(params[:id])
+  if @bug.destroy
+    redirect_to project_path(@project), flash: { notice: 'Bug Deleted Successfully.' }
+  else
+    redirect_to project_path(@project), flash: { notice: ' Something went wrong.' }
   end
+end
 
   private
-    def bug_params
-      params.require(:bug).permit(:title, :deadline, :bug_type, :bug_status, :project_id, :dev_id)
-    end
 
-    def set_project
-      @project = Project.find(params[:project_id])
-    end
+def bug_params
+  params.require(:bug).permit(:title, :deadline, :bug_type, :bug_status, :project_id, :dev_id)
+end
 
-    def authorization
-      authorize Bug
-    end
+def set_project
+  @project = Project.find(params[:project_id])
+end
 
-    def set_status_completed(bug)
-      bug.dev_id = current_user.id
+def authorization
+  authorize Bug
+end
 
-      if bug.started?
-        if bug.feature?
-          bug.completed!
-        else
-          bug.resolved!
-        end
-        if bug.save
-          redirect_back fallback_location: root_path, flash: { notice: 'Status Updated Successfully.' }
-        end
-      end
-    end
+def set_status_completed(bug)
+  bug.dev_id = current_user.id
 
-    def set_status_started(bug)
-      if bug.New?
-        bug.started!
-        if bug.save
-          redirect_back fallback_location: root_path
-        else
-          redirect_back :back #fallback_location: root_path, flash: { alert: 'Something went wrong.' }
-        end
+  if bug.started?
+    if bug.feature?
+      bug.completed!
+    else
+      bug.resolved!
     end
+    redirect_back fallback_location: root_path, flash: { notice: 'Status Updated Successfully.' } if bug.save
+  end
+end
+
+def set_status_started(bug)
+  if bug.New?
+    bug.started!
+    if bug.save
+      redirect_back fallback_location: root_path
+    else
+      redirect_back :back # fallback_location: root_path, flash: { alert: 'Something went wrong.' }
+    end
+  end
 end
