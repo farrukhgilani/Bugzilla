@@ -1,36 +1,36 @@
 <div class="p-2 ml-5 mr-5 mb-2 divs">
-    <div class='w-75 m-auto'>
+  <div class='w-75 m-auto'>
 
-      <%= form_with(model: [ @project, @project.bugs.build ], local: true) do |form| %>
+    <%= form_with(model: [ @project, @project.bugs.build ], remote: true) do |form| %>
 
-        <div class= 'row'>
+      <div class= 'row'>
 
-          <div class='col-md-6'>
-            <span >Title</span>
-            <%= form.text_field :title, class:'form-control' %>
+        <div class='col-md-6'>
+          <span >Title</span>
+          <%= form.text_field :title, class:'form-control' %>
 
-            <span>Type</span>
-            <%= form.select :bug_type, Bug.bug_types.keys , {},{class: 'form-control'}%>
+          <span>Type</span>
+          <%= form.select :bug_type, Bug.bug_types.keys , {},{class: 'form-control'}%>
 
-          </div>
-
-          <div class='col-md-6'>
-
-            <span>Deadline</span>
-            <%= form.date_field :deadline, class:'form-control' %>
-
-            <span>Status</span>
-              <%= form.select :bug_status, Bug.bug_statuses.except(:completed, :resolved).keys, {},{class: 'form-control'} %>
-
-          </div>
         </div>
 
-        <p class='mt-2 d-flex flex-column'>
+        <div class='col-md-6'>
 
-          <%= form.file_field :avatar, accept:'image/gif, image/png'%>
-          <%= form.submit "Report Bug", class:'btn btn-warning col-md-2 col-5' %>
-        </p>
-      <% end %>
-    </div>
+          <span>Deadline</span>
+          <%= form.date_field :deadline, class:'form-control form-control-date'%>
 
+          <span>Status</span>
+          <%= form.select :bug_status, Bug.bug_statuses.except(:completed, :resolved, :started).keys, {},{class: 'form-control'} %>
+
+        </div>
+      </div>
+
+      <div class='mt-2 d-flex flex-column'>
+
+        <%= form.file_field :avatar, accept:'image/gif, image/png'%>
+        <%= form.submit "Report Bug",  class:'btn btn-warning col-md-2 col-5' %>
+      </div>
+    <% end %>
   </div>
+
+</div>
