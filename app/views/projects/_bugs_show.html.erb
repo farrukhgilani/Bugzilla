@@ -3,6 +3,16 @@
     <% if @project.bugs.count == 0 %>
       <strong class='text-danger'>No bugs on this project yet</strong>
     <%else%>
+    <div class='mb-5'>
+
+      <div class='float-right'>
+      <h4>Search by Name</h4>
+      <%= form_tag({controller: 'projects', action: 'show'}, :method=>:get) do %>
+        <%= text_field_tag 'name_filter' %>
+        <%= submit_tag('Search', { class: 'btn btn-primary btn-sm'},  ) %>
+      <% end %>
+      </div>
+
       <div>
         <h4>Filter by Status</h4>
         <div class="btn-group" role="group">
@@ -11,7 +21,9 @@
           <%= link_to "Completed", project_path(:filter_by => :completed), class:'btn btn-light'  %>
         </div>
       </div>
+    </div>
 
+    <div>
       <% @bugs.each do |bug| %>
         <% if !bug.title.nil?%>
           <div id="bug-<%= bug.id%>">
@@ -70,8 +82,6 @@
       <% end %>
 
     <%end%>
-
+  </div>
 </div>
-
-
 
