@@ -2,18 +2,10 @@
 
 # project controller
 class ProjectsController < ApplicationController
-  # before_action :authorization, only: %i[index new create edit update]
   before_action :set_project, only: %i[edit update show destroy]
 
   def index
-    @projects = if current_user.manager?
-                  current_user.projects.page(params[:page]).per(6)
-                elsif current_user.qa?
-                  Project.page(params[:page]).per(6)
-                else
-                  puts :dev_id
-                  Project.page(params[:page]).per(6).where(':dev_id = ANY(dev_id)', dev_id: current_user.id)
-                end
+    @projects = current_user.projects.page(params[:page]).per(6)
   end
 
   def new
@@ -27,9 +19,9 @@ class ProjectsController < ApplicationController
   def create
     @project = current_user.projects.create(project_params)
     if @project.save
-      redirect_to @project, flash: { notice: 'Post Created Successfully' }
+      redirect_to @project, flash: { notice: 'Project Created Successfully' }
     else
-      render new_project_path, flash: { notice: 'Something went wrong!' }
+      render new_project_path, flash: { alert: 'Something went wrong!' }
     end
   end
 
@@ -37,33 +29,32 @@ class ProjectsController < ApplicationController
     authorize @project
     @project.users.clear
     if @project.destroy
-      redirect_to projects_path, flash: { notice: 'Post Deleted Successfully' }
+      redirect_to projects_path, flash: { notice: 'Project Deleted Successfully' }
     else
       redirect_to @project, flash: { alert: 'Something went wrong' }
     end
   end
 
   def show
-    authorize @project if current_user.manager? || current_user.developer?
+    authorize @project
     @bugs = @project.bugs
 
-
-    if params[:filter_by].eql?("New")
+    case params[:filter_by]
+    when 'New'
       @bugs = @project.bugs.New
-    elsif params[:filter_by].eql?("started")
+    when 'started'
       @bugs = @project.bugs.started
-    elsif params[:filter_by].eql?("completed")
+    when 'completed'
       @bugs = @project.bugs.completed
     end
-
   end
 
   def update
     authorize @project
     if @project.update(project_params)
-      redirect_to @project
+      redirect_to @project, flash: { notice: 'Project Updated Successfully' }
     else
-      render new_project_path
+      render edit_project_path
     end
   end
 
@@ -78,6 +69,6 @@ class ProjectsController < ApplicationController
   end
 
   def project_params
-    params.require(:project).permit(:name, :description, dev_id: [])
+    params.require(:project).permit(:name, :description, user_ids: [])
   end
 end
