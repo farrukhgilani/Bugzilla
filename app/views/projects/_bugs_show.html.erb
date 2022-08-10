@@ -16,11 +16,12 @@
       <div>
         <h4>Filter by Status</h4>
         <div class="btn-group" role="group">
-          <%= link_to "New", project_path(:filter_by => :New), class:'btn btn-light' %>
-          <%= link_to "Started", project_path(:filter_by => :started), class:'btn btn-light ml-1 mr-1'  %>
-          <%= link_to "Completed", project_path(:filter_by => :completed), class:'btn btn-light'  %>
+          <%= link_to "New", project_path(:filter_by => :New), class:'btn btn-light btn-sm' %>
+          <%= link_to "Started", project_path(:filter_by => :started), class:'btn btn-light ml-1 mr-1 btn-sm'  %>
+          <%= link_to "Completed", project_path(:filter_by => :completed), class:'btn btn-light btn-sm'  %>
         </div>
       </div>
+      <hr>
     </div>
 
     <div>
