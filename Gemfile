@@ -69,3 +69,11 @@ gem 'jquery-rails'
 gem 'kaminari'
 gem 'pg'
 gem 'pundit'
+gem 'cloudinary'
+
+group :development, :test do
+  gem 'rubocop'
+  gem 'rubocop-minitest' # or gem 'rubocop-rspec' depending on your test suite
+  gem 'rubocop-performance'
+  gem 'rubocop-rails'
+end

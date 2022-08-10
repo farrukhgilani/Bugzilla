@@ -38,9 +38,7 @@ class ProjectsController < ApplicationController
   def show
     authorize @project
     @bugs = @project.bugs
-
     @bugs = @bugs.where('lower(title) LIKE lower(?) ', "%#{params[:name_filter]}%")
-
     case params[:filter_by]
     when 'New'
       @bugs = @project.bugs.New
@@ -49,7 +47,6 @@ class ProjectsController < ApplicationController
     when 'completed'
       @bugs = @project.bugs.completed
     end
-
   end
 
   def update

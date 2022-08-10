@@ -6,11 +6,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  enum user_type: %i[manager developer qa]
+  enum user_type: { manager: 0, developer: 1, qa: 2 }
 
   validates :name, :email, :user_type, presence: true
   validates :name, length: { minimum: 3, maximum: 20 }
 
-  has_many :user_projects
+  has_many :user_projects, dependent: :destroy
   has_many :projects, through: :user_projects
 end
