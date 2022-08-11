@@ -54,7 +54,7 @@ class ProjectsController < ApplicationController
     if @project.update(project_params)
       redirect_to @project, flash: { notice: 'Project Updated Successfully' }
     else
-      render edit_project_path
+      render edit_project_path, flash: { alert: 'Something Went Wrong!' }
     end
   end
 

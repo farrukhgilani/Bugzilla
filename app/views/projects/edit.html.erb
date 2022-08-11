@@ -4,30 +4,7 @@
 <div class="">
 
   <%= form_for @project, remote: true do |f| %>
-     <div class='row'>
-  <div class='divs p-5 col-md-5 col-12'>
-    <p>
-      <%= f.label :Name %>
-      <%= f.text_field :name, autofocus: true , class:'form-control' %>
-    </p>
-
-    <p>
-      <%= f.label :Description %>
-      <%= f.text_area :description, size: "70x5" , class:'form-control' %>
-    </p>
-
-    <%= f.submit  class:'btn btn-primary p-2'%>
-    <%= link_to 'Cancel', projects_path, class:'btn btn-warning'%>
-  </div>
-
-  <div class='col-md-5 col-12 mt-5'>
-    <%= image_tag '/undraw_create_re_57a3.svg', width: '100%' %>
-  </div>
-</div>
-
-
-
-
+    <%= render :partial => "form", :locals => { :f => f } %>
   <% end %>
 </div>
 
