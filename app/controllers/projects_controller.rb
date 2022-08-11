@@ -50,6 +50,7 @@ class ProjectsController < ApplicationController
   end
 
   def update
+    params[:project][:user_ids] << @project.users.find_by(user_type: "manager").id
     authorize @project
     if @project.update(project_params)
       redirect_to @project, flash: { notice: 'Project Updated Successfully' }
@@ -59,16 +60,15 @@ class ProjectsController < ApplicationController
   end
 
   private
+    def authorization
+      authorize @project
+    end
 
-  def authorization
-    authorize @project
-  end
+    def set_project
+      @project = Project.find(params[:id])
+    end
 
-  def set_project
-    @project = Project.find(params[:id])
-  end
-
-  def project_params
-    params.require(:project).permit(:name, :description, user_ids: [])
-  end
+    def project_params
+      params.require(:project).permit(:name, :description, user_ids: [])
+    end
 end
