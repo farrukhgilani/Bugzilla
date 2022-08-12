@@ -64,12 +64,12 @@ end
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'bootstrap', '~> 4.0.0'
+gem 'cloudinary'
 gem 'devise'
 gem 'jquery-rails'
 gem 'kaminari'
 gem 'pg'
 gem 'pundit'
-gem 'cloudinary'
 
 group :development, :test do
   gem 'rubocop'

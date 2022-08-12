@@ -3,6 +3,7 @@
 # project controller
 class ProjectsController < ApplicationController
   before_action :set_project, only: %i[edit update show destroy]
+  before_action :authorization, only: %i[edit show destroy update]
 
   def index
     @projects = current_user.projects.page(params[:page]).per(6)
@@ -12,9 +13,7 @@ class ProjectsController < ApplicationController
     @project = Project.new
   end
 
-  def edit
-    authorize @project
-  end
+  def edit; end
 
   def create
     @project = current_user.projects.create(project_params)
@@ -26,7 +25,6 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    authorize @project
     @project.users.clear
     if @project.destroy
       redirect_to projects_path, flash: { notice: 'Project Deleted Successfully' }
@@ -36,7 +34,6 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    authorize @project
     @bugs = @project.bugs
     @bugs = @bugs.where('lower(title) LIKE lower(?) ', "%#{params[:name_filter]}%")
     case params[:filter_by]
@@ -50,8 +47,8 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    params[:project][:user_ids] << @project.users.find_by(user_type: "manager").id
-    authorize @project
+    params[:project][:user_ids] << @project.users.find_by(user_type: 'manager').id
+
     if @project.update(project_params)
       redirect_to @project, flash: { notice: 'Project Updated Successfully' }
     else
@@ -60,15 +57,16 @@ class ProjectsController < ApplicationController
   end
 
   private
-    def authorization
-      authorize @project
-    end
 
-    def set_project
-      @project = Project.find(params[:id])
-    end
+  def authorization
+    authorize @project
+  end
 
-    def project_params
-      params.require(:project).permit(:name, :description, user_ids: [])
-    end
+  def set_project
+    @project = Project.find(params[:id])
+  end
+
+  def project_params
+    params.require(:project).permit(:name, :description, user_ids: [])
+  end
 end

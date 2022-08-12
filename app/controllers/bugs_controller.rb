@@ -61,10 +61,11 @@ class BugsController < ApplicationController
     if bug.New?
       bug.started!
       if bug.save
-        redirect_back fallback_location: root_path
+        redirect_back fallback_location: root_path, flash: { notice: 'Status Updated Successfully.' }
       else
         redirect_back :back # fallback_location: root_path, flash: { alert: 'Something went wrong.' }
       end
     end
   end
+
 end

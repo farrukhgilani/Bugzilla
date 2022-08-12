@@ -13,7 +13,11 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def index?
-    true
+    if @user.qa?
+      true
+    elsif @project.users.include?(user)
+      true
+    end
   end
 
   def show?
