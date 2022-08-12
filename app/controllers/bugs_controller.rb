@@ -67,5 +67,4 @@ class BugsController < ApplicationController
       end
     end
   end
-
 end
