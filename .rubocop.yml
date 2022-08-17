@@ -1,7 +1,7 @@
 require:
   - rubocop-performance
   - rubocop-rails
-  - rubocop-minitest
+  - rubocop-rspec
 
 
 AllCops:

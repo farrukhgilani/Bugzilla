@@ -20,6 +20,10 @@ class ProjectPolicy < ApplicationPolicy
     end
   end
 
+  def create?
+    return true if @user.present? && @user.manager?
+  end
+
   def show?
     if @user.qa?
       true
@@ -38,6 +42,10 @@ class ProjectPolicy < ApplicationPolicy
 
   def update?
     edit?
+  end
+
+  def new?
+    return true if @user.present? && @user.manager?
   end
 
   def destroy?

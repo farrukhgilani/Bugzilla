@@ -6,17 +6,25 @@ class ProjectsController < ApplicationController
   before_action :authorization, only: %i[edit show destroy update]
 
   def index
-    @projects = current_user.projects.page(params[:page]).per(6)
+    if current_user.qa?
+      @projects = Project.page(params[:page]).per(6)
+    else
+      @projects = current_user.projects.page(params[:page]).per(6)
+    end
+
   end
 
   def new
     @project = Project.new
+    authorize @project
   end
 
   def edit; end
 
   def create
     @project = current_user.projects.create(project_params)
+    authorize @project
+
     if @project.save
       redirect_to @project, flash: { notice: 'Project Created Successfully' }
     else
@@ -25,6 +33,7 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
+    authorize @project
     @project.users.clear
     if @project.destroy
       redirect_to projects_path, flash: { notice: 'Project Deleted Successfully' }
@@ -43,6 +52,8 @@ class ProjectsController < ApplicationController
       @bugs = @project.bugs.started
     when 'completed'
       @bugs = @project.bugs.completed
+    when 'resolved'
+      @bugs = @project.bugs.resolved
     end
   end
 
