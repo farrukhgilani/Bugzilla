@@ -3,7 +3,7 @@
   <h5 class="card-header "><%= link_to project.name.truncate(20) , project_path(project) , class: "text-white" %></h5>
   <div class="card-body"  id='delete-<%= project.id %>'>
 
-    <p class="card-text "><%= project.description.truncate(100)%></p>
+    <p class="card-text"><%= project.description.truncate(110)%></p>
     <%if policy(:project).qa? || policy(:project).manager? %>
       <%if policy(:project).manager?%>
         <%= link_to '', edit_project_path(project), class:'fa fa-edit btn btn-info btn-sm m-1 '%>

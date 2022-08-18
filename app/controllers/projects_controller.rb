@@ -58,8 +58,7 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    params[:project][:user_ids] << @project.users.find_by(user_type: 'manager').id
-
+    params[:project][:user_ids] << current_user.id
     if @project.update(project_params)
       redirect_to @project, flash: { notice: 'Project Updated Successfully' }
     else

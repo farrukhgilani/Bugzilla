@@ -7,6 +7,7 @@ class BugsController < ApplicationController
 
   def create
     @bug = @project.bugs.create(bug_params)
+    authorize @bug
     if @bug.save
       redirect_to project_path(@project)
     else
@@ -17,12 +18,14 @@ class BugsController < ApplicationController
 
   def edit
     @bug = Bug.find(params[:id])
+    authorize @bug
     status_completed(@bug)
     status_started(@bug)
   end
 
   def destroy
     @bug = @project.bugs.find(params[:id])
+    authorize @bug
     if @bug.destroy
       redirect_to project_path(@project), flash: { notice: 'Bug Deleted Successfully.' }
     else
