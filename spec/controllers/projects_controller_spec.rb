@@ -5,7 +5,7 @@ RSpec.describe ProjectsController, type: :request do
   let (:manager) {create(:user, user_type: :manager)}
   let (:developer) {create(:user, user_type: :developer)}
   let (:qa) {create(:user, user_type: :qa)}
-  # let (:user) {create(:user)}
+
 
   before do
     sign_in(manager)
@@ -21,10 +21,7 @@ RSpec.describe ProjectsController, type: :request do
 
       end
     end
-  end
 
-  describe 'GET #index' do
-    let ( :projects ) { FactoryBot.create_list(:project, user_ids: manager.id) }
     context "when Developer visits project index" do
         it 'return a success response' do
         sign_in(developer)
@@ -34,10 +31,7 @@ RSpec.describe ProjectsController, type: :request do
 
       end
     end
-  end
 
-  describe 'GET #index' do
-    let ( :projects ) { FactoryBot.create_list(:project, user_ids: manager.id) }
     context "when QA visits project index" do
         it 'return a success response' do
         sign_in(qa)
@@ -49,20 +43,49 @@ RSpec.describe ProjectsController, type: :request do
     end
   end
 
-  describe 'GET #show' do
-    let ( :project ) { FactoryBot.create(:project) }
-    context "when Manager visits project show" do
-        it 'return a success response' do
-        get project_url(project.id)
-        expect(assigns[:project])
-        expect(response.status).to eq(302)
-      end
-    end
-  end
 
   describe 'GET #show' do
-    let ( :project ) { FactoryBot.create(:project) }
+    context "when Manager visits project show" do
+      # let(:filter_by) { 'New' }
+      it 'return a success response with bugs_status = New' do
+      project = create(:project, user_ids: manager.id)
+      bug = create(:bug, project_id: project.id, bug_status: 'New')
+      get project_url(project.id), params: {filter_by: "New"}
+      expect(assigns[:project])
+      expect(bug.bug_status).to eq('New')
+      expect(response.status).to eq(200)
+      end
+
+      it 'return a success response with bugs_status = Started' do
+      project = create(:project, user_ids: manager.id)
+      bug = create(:bug, project_id: project.id, bug_status: 'started')
+      get project_url(project.id), params: {filter_by: "started"}
+      expect(assigns[:project])
+      expect(bug.bug_status).to eq('started')
+      expect(response.status).to eq(200)
+      end
+
+      it 'return a success response with bugs_status = Completed' do
+      project = create(:project, user_ids: manager.id)
+      bug = create(:bug, project_id: project.id, bug_status: 'completed')
+      get project_url(project.id), params: {filter_by: "completed"}
+      expect(assigns[:project])
+      expect(bug.bug_status).to eq('completed')
+      expect(response.status).to eq(200)
+      end
+
+      it 'return a success response with bugs_status = Resolved' do
+      project = create(:project, user_ids: manager.id)
+      bug = create(:bug, project_id: project.id, bug_status: 'resolved')
+      get project_url(project.id), params: {filter_by: "resolved"}
+      expect(assigns[:project])
+      expect(bug.bug_status).to eq('resolved')
+      expect(response.status).to eq(200)
+      end
+    end
+
     context "when Developer visits project show" do
+      let ( :project ) { FactoryBot.create(:project, user_ids: manager.id) }
         it 'return a success response' do
         sign_in(developer)
         get project_url(project.id)
@@ -70,11 +93,9 @@ RSpec.describe ProjectsController, type: :request do
         expect(response.status).to eq(302)
       end
     end
-  end
 
-  describe 'GET #show' do
-    let ( :project ) { FactoryBot.create(:project, user_ids: manager.id) }
     context "when QA visits project show" do
+      let ( :project ) { FactoryBot.create(:project, user_ids: manager.id) }
         it 'return a success response' do
         sign_in(qa)
         get project_url(project.id)
@@ -82,6 +103,7 @@ RSpec.describe ProjectsController, type: :request do
         expect(response.status).to eq(200)
       end
     end
+
   end
 
    describe 'GET #new' do
@@ -93,9 +115,7 @@ RSpec.describe ProjectsController, type: :request do
         is_expected.to render_template(:new)
       end
     end
-  end
 
-  describe 'GET #new' do
     context 'when Developer visits new project page' do
       it 'return to index page showing not Authorized' do
         sign_in(developer)
@@ -104,9 +124,7 @@ RSpec.describe ProjectsController, type: :request do
         expect(response.status).to eq(302)
       end
     end
-  end
 
-  describe 'GET #new' do
     context 'when QA visits new project page' do
       it 'return to index page showing not Authorized' do
         sign_in(qa)
@@ -115,6 +133,7 @@ RSpec.describe ProjectsController, type: :request do
         expect(response.status).to eq(302)
       end
     end
+
   end
 
    describe 'GET #edit' do
@@ -127,10 +146,7 @@ RSpec.describe ProjectsController, type: :request do
         expect(response.status).to eq(302)
       end
     end
-  end
 
-  describe 'GET #edit' do
-    let(:edit_project) { FactoryBot.create(:project) }
     context 'when Developer visits Edit project page' do
       it 'return to index page showing not Authorized' do
         sign_in(developer)
@@ -140,10 +156,7 @@ RSpec.describe ProjectsController, type: :request do
         expect(response.status).to eq(302)
       end
     end
-  end
 
-  describe 'GET #edit' do
-    let(:edit_project) { FactoryBot.create(:project) }
     context 'when QA visits Edit project page' do
       it 'return to index page showing not Authorized' do
         sign_in(qa)
@@ -155,8 +168,9 @@ RSpec.describe ProjectsController, type: :request do
     end
   end
 
+
   describe 'DELETE #delete' do
-    let!( :new_project ) { FactoryBot.create(:project, user_ids: manager.id) }
+  let!( :new_project ) { FactoryBot.create(:project, user_ids: manager.id) }
     context 'when Manager deletes one of his project' do
       it 'is expected to destroy the project' do
         delete project_url(new_project)
@@ -164,10 +178,18 @@ RSpec.describe ProjectsController, type: :request do
         expect(response.status).to be(302)
       end
     end
-  end
 
-  describe 'DELETE #delete' do
-    let!( :new_project ) { FactoryBot.create(:project, user_ids: manager.id) }
+    context 'when Manager deletes one of his project' do
+      before do
+        allow(new_project).to receive(:destroy).and_return(false)
+        allow(Project).to receive(:find).and_return(new_project)
+      end
+      it 'is not expected to destroy the project' do
+        delete project_url(new_project)
+        expect(response.status).to be(302)
+      end
+    end
+
     context 'when Developer try to delete one of his project' do
       it 'return to index page showing not Authorized While not deleting project' do
         sign_in(developer)
@@ -176,10 +198,7 @@ RSpec.describe ProjectsController, type: :request do
         expect(response.status).to be(302)
       end
     end
-  end
 
-  describe 'DELETE #delete' do
-    let!( :new_project ) { FactoryBot.create(:project, user_ids: manager.id) }
     context 'when QA try to delete one of his project' do
       it 'return to index page showing not Authorized While not deleting project' do
         sign_in(qa)
@@ -203,10 +222,20 @@ RSpec.describe ProjectsController, type: :request do
         expect(response.status).to be(302)
       end
     end
-  end
 
-  describe 'PUT #update' do
-    let(:edit_project) { FactoryBot.create(:project, user_ids: manager.id) }
+    context 'when Manager submits edit form with Invalid project data' do
+      let(:params) { { project: { name: nil, description: 'Edited Description kl maskldm klas salk md' } } }
+      it 'is not expected to update the project' do
+        put project_url(edit_project.id), params: params
+        expect(assigns[:project]).to eq(Project.find_by(id: edit_project.id))
+        expect((assigns[:project])).to be_instance_of(Project)
+        expect(assigns[:project].name).not_to eq('New Project')
+        assert(assigns[:project].id, edit_project.id)
+        expect(response.status).to be(302)
+        # response.should render_template("edit")
+      end
+    end
+
     context 'when Developer submits edit form with valid project data' do
       let(:params) { { project: { name: 'Edited Title', description: 'Edited Description kl maskldm klas salk md' } } }
       it 'return to index page showing not Authorized While not updating project' do
@@ -219,10 +248,7 @@ RSpec.describe ProjectsController, type: :request do
         expect(response.status).to be(302)
       end
     end
-  end
 
-  describe 'PUT #update' do
-    let(:edit_project) { FactoryBot.create(:project, user_ids: manager.id) }
     context 'when QA submits edit form with valid project data' do
       let(:params) { { project: { name: 'Edited Title', description: 'Edited Description kl maskldm klas salk md' } } }
       it 'return to index page showing not Authorized While not updating project' do
@@ -237,6 +263,7 @@ RSpec.describe ProjectsController, type: :request do
     end
   end
 
+
   describe 'POST #create' do
     context 'when manager submits create form with valid project data' do
       let(:params) { { project: {  name: 'New Title', description: 'mkm dlkmalksmlkds s kmaslk mdlkamsl sk', user_ids: manager.id } } }
@@ -247,7 +274,15 @@ RSpec.describe ProjectsController, type: :request do
         expect(response.status).to be(302)
       end
     end
+
+    context 'when manager submits create form with Invalid project data' do
+      let(:params) { { project: {  name: 2, description: 'mkm dlkmalksmlkds s kmaslk mdlkamsl sk', user_ids: manager.id } } }
+      it 'is expected not to create the project' do
+        post projects_url, params: params
+        expect((assigns[:project])).to be_instance_of(Project)
+        expect(assigns[:project]).not_to be_valid
+        expect(response.status).to be(200)
+      end
+    end
   end
-
-
 end
