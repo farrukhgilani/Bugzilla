@@ -3,6 +3,7 @@
 # application controller
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   include Pundit::Authorization
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   protect_from_forgery with: :exception
@@ -25,4 +26,11 @@ class ApplicationController < ActionController::Base
       flash[:alert] = 'You are not authorized to perform this action.'
       redirect_to(request.referer || root_path)
     end
+
+    def record_not_found
+    respond_to do |f|
+      f.json {render json: {:message => "Record Not Found"},status: 404}
+      f.html {redirect_to root_path, alert: 'Record Not Found'}
+    end
+  end
 end

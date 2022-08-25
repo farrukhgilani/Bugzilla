@@ -23,16 +23,6 @@ class BugsController < ApplicationController
     status_started(@bug)
   end
 
-  def destroy
-    @bug = @project.bugs.find(params[:id])
-    authorize @bug
-    if @bug.destroy
-      redirect_to project_path(@project), flash: { notice: 'Bug Deleted Successfully.' }
-    else
-      redirect_to project_path(@project), flash: { notice: ' Something went wrong.' }
-    end
-  end
-
   private
 
   def bug_params
@@ -48,7 +38,9 @@ class BugsController < ApplicationController
   end
 
   def status_completed(bug)
+
     bug.dev_id = current_user.id
+
 
     if bug.started?
       if bug.feature?
@@ -66,7 +58,7 @@ class BugsController < ApplicationController
       if bug.save
         redirect_back fallback_location: root_path, flash: { notice: 'Status Updated Successfully.' }
       else
-        redirect_back :back # fallback_location: root_path, flash: { alert: 'Something went wrong.' }
+        redirect_to :root
       end
     end
   end

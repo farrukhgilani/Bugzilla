@@ -9,21 +9,17 @@ class BugPolicy < ApplicationPolicy
     end
   end
 
-  def initialize(user, project)
+  def initialize(user, bug)
     super
     @user = user
-    @project = project
+    @bug = bug
   end
 
   def create?
     return true if @user.present? && @user.manager? || @user.qa?
   end
 
-  def destroy?
-    return true if @user.present? && @user.manager?
-  end
-
   def edit?
-    return true if @user.present? && @user.developer?
+    return true if @user.present? && @user.developer? && @bug.dev_id.nil?
   end
 end

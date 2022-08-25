@@ -45,24 +45,25 @@ class ProjectsController < ApplicationController
   def show
     @bugs = @project.bugs
     @bugs = @bugs.where('lower(title) LIKE lower(?) ', "%#{params[:name_filter]}%")
+    # byebug
     case params[:filter_by]
-    when 'New'
-      @bugs = @project.bugs.New
-    when 'started'
-      @bugs = @project.bugs.started
-    when 'completed'
-      @bugs = @project.bugs.completed
-    when 'resolved'
-      @bugs = @project.bugs.resolved
+      when 'New'
+        @bugs = @project.bugs.New
+      when 'started'
+        @bugs = @project.bugs.started
+      when 'completed'
+        @bugs = @project.bugs.completed
+      when 'resolved'
+        @bugs = @project.bugs.resolved
     end
   end
 
   def update
-    params[:project][:user_ids] << current_user.id
+    #params[:project][:user_ids] << current_user.id
     if @project.update(project_params)
       redirect_to @project, flash: { notice: 'Project Updated Successfully' }
     else
-      render edit_project_path, flash: { alert: 'Something Went Wrong!' }
+      redirect_to edit_project_path, flash: { alert: 'Something Went Wrong!' }
     end
   end
 

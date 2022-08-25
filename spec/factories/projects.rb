@@ -2,8 +2,8 @@
 require 'faker'
 FactoryBot.define do
   factory :project do
-    name {Faker::Game.title}
+    name {Faker::Name.name }
     description {Faker::Lorem.sentence(word_count: 20)}
-
+    association :users, factory: :user
   end
 end
