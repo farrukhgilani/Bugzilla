@@ -17,7 +17,7 @@ end
       let (:params) { { bug: {  title: 'New Title 12345', deadline: '2016-09-23', bug_type: 'bug', bug_status: 'New', project: project} } }
       it 'is expected to create a bug' do
 
-        post project_bugs_url(project.id), params: params
+        expect {post project_bugs_url(project.id), params: params}.to change(Bug, :count).by(1)
         expect(assigns[:bug].title).to eq('New Title 12345')
         expect(response).to have_http_status(:found)
 
