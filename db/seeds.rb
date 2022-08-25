@@ -9,3 +9,4 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 User.create(name: 'Manager 1', email: 'manager@gmail.com', password: 'password', user_type: 0)
+User.create(name: 'Manager 2', email: 'manager2@gmail.com', password: 'password', user_type: 0)

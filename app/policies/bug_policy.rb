@@ -22,4 +22,8 @@ class BugPolicy < ApplicationPolicy
   def destroy?
     return true if @user.present? && @user.manager?
   end
+
+  def edit?
+    return true if @user.present? && @user.developer?
+  end
 end

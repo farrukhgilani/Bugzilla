@@ -1,0 +1,38 @@
+require:
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
+
+
+AllCops:
+  TargetRubyVersion: 2.7
+  TargetRailsVersion: 5.2
+  Exclude:
+    - 'db/schema.rb'
+    - 'node_modules/**/*'
+    - 'vendor/bundle/**/*'
+    - 'bin/**/*'
+    - 'db/migrate/**/*'
+    - 'config/environments/development.rb'
+    - 'config/initializers/devise.rb'
+Lint/MissingSuper:
+  Exclude:
+    - 'app/services/**/*'
+
+Layout/LineLength:
+  Max: 120
+
+Metrics/MethodLength:
+  Max: 120
+
+Metrics/BlockLength:
+  Exclude:
+    - config/**/*
+    - spec/**/*
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - spec/**/*
+
+Style/Documentation:
+  Enabled: false

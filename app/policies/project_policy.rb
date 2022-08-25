@@ -13,11 +13,23 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def index?
-    true
+    if @user.qa?
+      true
+    elsif @project.users.include?(user)
+      true
+    end
+  end
+
+  def create?
+    return true if @user.present? && @user.manager?
   end
 
   def show?
-    return true if @user.present? && @user.manager?
+    if @user.qa?
+      true
+    elsif @project.users.include?(user)
+      true
+    end
   end
 
   def create?
@@ -25,15 +37,19 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def edit?
-    return true if @user.present? && @user.manager?
+    return true if @user.present? && @project.users.include?(user) && @user.manager?
   end
 
   def update?
+    edit?
+  end
+
+  def new?
     return true if @user.present? && @user.manager?
   end
 
   def destroy?
-    return true if @user.present? && @user.manager?
+    return true if @user.present? && @project.users.include?(user) && @user.manager?
   end
 
   def developer?

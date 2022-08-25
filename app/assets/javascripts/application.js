@@ -11,13 +11,8 @@
 // about supported directives.
 //
 //= require rails-ujs
+//= require jquery
 //= require activestorage
 //= require turbolinks
 //= require_tree .
 
-
-// Tried this code for alert fade
-
-
-//import Rails from 'rails-ujs'
-//Rails.start()

@@ -2,63 +2,85 @@
 
     <% if @project.bugs.count == 0 %>
       <strong class='text-danger'>No bugs on this project yet</strong>
-    <%end%>
+    <%else%>
 
-    <% @bugs.each do |bug| %>
+    <div class='mb-2 divs pl-3 pr-3 pt-2'>
 
-      <div id="bug-<%= bug.id%>">
-
-        <p>
-          <% if bug.dev_id.present? %>
-            <span class='float-right'>Assigned to: <%= find_assigned_bug_user(bug) %></span>
-          <% end %>
-          <h4 class='text-primary'> <%= bug.title %> </h4>
-
-          <%if policy(:project).show?%>
-            <%= link_to 'Delete',[bug.project, bug], class:'btn btn-danger btn-sm float-right'  ,method: :delete, data: { confirm: 'Are you sure?' } %>
-
-          <%end %>
-
-          <%if policy(:project).developer? %>
-            <% if bug.started? && bug.bug? %>
-              <%= link_to 'Resolved',bug_resolved_bug_path(bug), method: :get ,class:'btn btn-success mr-1 btn-sm float-right'%>
-            <%elsif bug.started? && bug.feature? %>
-              <%= link_to 'Completed',bug_resolved_bug_path(bug), method: :get ,class:'btn btn-success mr-1 btn-sm float-right'%>
-            <%end%>
-            <% if !bug.dev_id.present? %>
-              <%= link_to 'Get Assigned', insert_id_bug_path(bug),  method: :get ,class:'btn btn-warning mr-1 btn-sm float-right'%>
-            <%end %>
-
-          <%end %>
-
-        </p>
-
-        <p>
-          <b>Deadline: </b>
-          <%= bug.deadline%>
-        </p>
-
-        <p>
-          <b>Status: </b>
-          <b class='bg-warning text-dark p-1 rounded'> <%= bug.bug_status%> </b>
-        </p>
-
-        <p>
-          <b>Type: </b>
-          <%= bug.bug_type%>
-        </p>
+      <div class='float-right'>
+      <h4>Search by Name</h4>
+      <%= form_tag({controller: 'projects', action: 'show'}, :method=>:get) do %>
+        <%= text_field_tag 'name_filter' %>
+        <%= submit_tag('Search', { class: 'btn btn-primary btn-sm'},  ) %>
+      <% end %>
       </div>
 
-      <% if bug.avatar.attached? %>
-        <%= image_tag bug.avatar, width: '200px' %>
-      <%else%>
-        <small class='text-danger'>No Screenshot Attached</small>
-      <%end%>
-
+      <div>
+        <h4>Filter by Status</h4>
+        <div class="btn-group" role="group">
+          <%= link_to "New", project_path(:filter_by => :New), class:'btn btn-light btn-sm border border-dark' %>
+          <%= link_to "Started", project_path(:filter_by => :started), class:'btn btn-light btn-sm border border-dark'  %>
+          <%= link_to "Completed", project_path(:filter_by => :completed), class:'btn btn-light btn-sm  border border-dark'  %>
+          <%= link_to "Resolved", project_path(:filter_by => :resolved), class:'btn btn-light btn-sm border border-dark'  %>
+        </div>
+      </div>
       <hr>
-    <% end %>
+    </div>
 
+    <div>
+      <% @bugs.each do |bug| %>
+        <% if !bug.title.nil?%>
+          <div id="bug-<%= bug.id%>">
+            <p>
+              <% if bug.dev_id.present? %>
+                <span class='float-right'>Assigned to: <%= find_assigned_bug_user(bug) %></span>
+              <% end %>
+              <h4 class='text-primary'> <%= bug.title %> </h4>
+
+              <%if policy(:project).developer?%>
+                <% if !bug.dev_id.present? %>
+                  <%= link_to 'Get Assigned', edit_project_bug_path(bug.project,bug), class:'btn btn-warning mr-1 btn-sm float-right' %>
+                <%end %>
+              <%end%>
+
+              <%if policy(:project).developer? && (bug.dev_id == current_user.id) %>
+
+                <% if bug.started? && bug.bug? %>
+                  <%= link_to 'Resolved',edit_project_bug_path(bug.project,bug), class:'btn btn-success mr-1 btn-sm float-right'%>
+                <%elsif bug.started? && bug.feature? %>
+                  <%= link_to 'Completed',edit_project_bug_path(bug.project,bug), class:'btn btn-success mr-1 btn-sm float-right'%>
+                <%end%>
+
+              <%end %>
+
+            </p>
+
+            <p>
+              <b>Deadline: </b>
+              <%= bug.deadline%>
+            </p>
+
+            <p>
+              <b>Status: </b>
+              <b class='bg-warning text-dark p-1 rounded'> <%= bug.bug_status%> </b>
+            </p>
+
+            <p>
+              <b>Type: </b>
+              <%= bug.bug_type%>
+            </p>
+          </div>
+
+          <% if bug.avatar.attached? %>
+            <%= image_tag bug.avatar, width: '200px' %>
+          <%else%>
+            <small class='text-danger'>No Screenshot Attached</small>
+          <%end%>
+          <hr>
+        <%end%>
+
+      <% end %>
+
+    <%end%>
+  </div>
 </div>
-
-
 

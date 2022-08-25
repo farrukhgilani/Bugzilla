@@ -3,8 +3,8 @@
 <h1>Edit Project</h1>
 <div class="">
 
-  <%= form_for @project  do |f| %>
-     <%= render :partial => "form", :locals => { :f => f } %>
+  <%= form_for @project, remote: true do |f| %>
+    <%= render :partial => "form", :locals => { :f => f } %>
   <% end %>
 </div>
 
