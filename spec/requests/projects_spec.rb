@@ -14,7 +14,7 @@ RSpec.describe ProjectsController, type: :request do
   describe 'GET #show' do
     let ( :project ) { create(:project, user_ids: manager.id) }
 
-    context "when User visits project show" do
+    context "when User visits project show and no filter is applied" do
         it 'return a success response' do
 
           get project_url(project.id)
@@ -25,7 +25,7 @@ RSpec.describe ProjectsController, type: :request do
     end
 
     context "when User visits Non existing project's show page" do
-      it 'is expected to show Project not found page.' do
+      it 'is expected to show Project not found alert.' do
          get project_url(123)
          expect(flash[:alert]).to match('Record Not Found')
          expect(response).to have_http_status(:found)
@@ -33,7 +33,7 @@ RSpec.describe ProjectsController, type: :request do
       end
     end
 
-    context "when user visits project show" do
+    context "when user visits project show and filters result by Status = New" do
       let ( :bug ) { create(:bug, project_id: project.id, bug_status: 'New') }
 
       it 'return a success response with bugs_status = New' do
@@ -194,7 +194,7 @@ RSpec.describe ProjectsController, type: :request do
       end
     end
 
-    context 'when Manager visits Edit project page for Invalid Project' do
+    context 'when Manager visits Edit project page for Invalid/ non existing Project' do
       it 'should not render edit form' do
 
         get edit_project_url(123)
@@ -344,12 +344,12 @@ RSpec.describe ProjectsController, type: :request do
       let(:params) { { project: {  name: 'New Title', description: 'mkm dlkmalksmlkds s kmaslk mdlkamsl sk', user_ids: manager.id } } }
 
       it 'is expected to create a project' do
-        post projects_url, params: params
-        expect(assigns[:project].name).to eq('New Title')
-        expect(flash[:notice]).to match('Project Created Successfully')
-        expect {post projects_url, params: params}.to change(Project, :count).by(1)
-        expect(response).to have_http_status(:found)
-
+			byebug
+			expect {post projects_url, params: params}.to change(Project, :count).by(1)
+			byebug
+			expect(assigns[:project].name).to eq('New Title')
+			expect(flash[:notice]).to match('Project Created Successfully')
+			expect(response).to have_http_status(:found)
       end
     end
 
